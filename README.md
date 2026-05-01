@@ -1,17 +1,5 @@
 # PawPal+: Applied AI Pet Care Assistant
 
-<img width="795" height="907" alt="demo1" src="https://github.com/user-attachments/assets/0029ff88-fc79-469e-87f5-b3f8a042ebc4" />
-
----
-
-## Original Project (Modules 1–3)
-
-The original **PawPal+** was built across Modules 1–3 as a pure scheduling tool. A pet owner could register pets, add care tasks (walks, feeding, medications, grooming), and the app would generate a prioritized daily schedule that respected the owner's available time, task priorities, and preferences like low-energy mode or short-tasks-first. It included conflict detection, recurring task auto-scheduling, and a full pytest suite covering recurrence logic, time sorting, filtering, and greedy schedule generation. There was no AI or natural language component — all logic was deterministic Python.
-
----
-
-## PawPal+ Applied AI System
-
 ### What it does
 
 PawPal+ is a **no-API, locally-running pet care assistant** that adds three AI-style capabilities on top of the original scheduling engine:
@@ -157,18 +145,7 @@ PawPal+ is not a substitute for professional veterinary care.
 
 ### Why no external LLM API?
 
-This was not the first choice. Over the course of development, the chat module was rebuilt six times using different API providers:
-
-| Provider | Failure mode |
-|----------|-------------|
-| Anthropic Claude | Insufficient credits on free tier |
-| Google Gemini (google-generativeai) | SDK deprecated mid-project |
-| Google Gemini (google-genai) | Client context-manager bug, model 404 errors |
-| Groq (llama3-groq-70b tool-use) | Model decommissioned mid-session |
-| Groq (llama-3.3-70b) | Malformed tool-call outputs |
-| OpenRouter free tier | Rate limits, model availability changes |
-
-Every external API introduced a new failure mode: authentication errors, quota exhaustion, model deprecation, or malformed responses. The final architecture eliminates all of these by replacing the LLM with:
+Sometimes, external API can introduce a new failure mode: authentication errors, quota exhaustion, model deprecation, or malformed responses. The final architecture eliminates all of these by replacing the LLM with:
 - A keyword-based router (deterministic, testable)
 - Word-overlap retrieval (no embeddings, no network)
 - Hardcoded response templates (reliable, auditable)
